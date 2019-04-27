@@ -6,7 +6,7 @@ export interface ComponentProps<T> {
     viewObject: T;
     nonce: string;
 }
-@Controller('home')
+@Controller('')
 export class HomeController {
     constructor(private readonly helloWorldContentService: HelloWorldContentService) {}
 

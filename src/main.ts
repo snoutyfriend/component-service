@@ -4,6 +4,7 @@ import { RenderModule } from 'nest-next';
 import Next from 'next';
 import {FastifyAdapter, NestFastifyApplication} from '@nestjs/platform-fastify';
 import {AppModule} from '@server/AppModule';
+import {join} from 'path';
 
 async function bootstrap() {
   const dev = process.env.NODE_ENV !== 'production';
@@ -16,6 +17,9 @@ async function bootstrap() {
       new FastifyAdapter(),
   );
   server.use(compression({}));
+  server.useStaticAssets({
+    root: join(__dirname, '..', '../static'),
+  });
 
   const renderer = server.get(RenderModule);
   renderer.register(server, app);

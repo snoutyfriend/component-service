@@ -1,10 +1,12 @@
 import {CacheModule, Module} from '@nestjs/common';
-import {HelloWorldContentService} from '@server/services/HelloWorldContentService';
-import {HomeController} from '@server/modules/reactNext/controllers/HomeController';
+import {PagesController} from '@server/modules/reactNext/controllers/PagesController';
+import {CitiesRepository} from '@server/services/CitiesRepository';
 
 @Module({
     imports: [CacheModule.register()],
-    controllers: [HomeController],
-    providers: [HelloWorldContentService],
+    controllers: [PagesController],
+    providers: [
+        CitiesRepository,
+    ],
 })
 export class ReactNextModule {}
