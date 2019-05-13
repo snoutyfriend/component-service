@@ -14,9 +14,16 @@ import {
 
     SearchableDropdownObservable,
     SearchableDropdown,
+
+    DropdownFilterModel,
+    SimpleDropdownObservable,
+    DropdownFilterSize,
+    FiltersSection,
+    FilterSectionViewObject,
 } from '@snoutyfriend/storybook';
 import {NextContext} from 'next';
 const style = require('@snoutyfriend/storybook/scss/all.scss');
+const findLocation = require('../../../scss/pages/find-location/find-location.scss');
 
 export default class FindLocation extends React.Component<{}, {}> {
     static async getInitialProps(context: NextContext) {
@@ -53,8 +60,59 @@ export default class FindLocation extends React.Component<{}, {}> {
         const staticUrlConfiguration = new StaticRepositoryConfiguration(staticUrl);
         const imagesRepository = new DefaultImagesRepository(staticUrlConfiguration);
 
+        const filterSectionViewObject = new FilterSectionViewObject({
+            header: 'FILTERI',
+            description: 'Ovdje upravljate sadrzajem koji se prikazuje s lijeve strane. Isprobajte kako rade filteri pretrazivanja: \n' +
+                '\n',
+            filters: [
+                new DropdownFilterModel({
+                    label: 'Grad:',
+                    dropdownObservable: new SimpleDropdownObservable([
+                        {
+                            key: '1',
+                            name: 'Zagreb',
+                        },
+                        {
+                            key: '2',
+                            name: 'Split',
+                        },
+                    ]),
+                }),
+                new DropdownFilterModel({
+                    label: 'Tip:',
+                    dropdownObservable: new SimpleDropdownObservable([
+                        {
+                            key: '1',
+                            name: 'Kafic',
+                        },
+                        {
+                            key: '2',
+                            name: 'Restoran',
+                        },
+                    ]),
+                }),
+                new DropdownFilterModel({
+                    label: 'Dozvoljeni kucni ljubimci:',
+                    size: DropdownFilterSize.SMALL,
+                    dropdownObservable: new SimpleDropdownObservable([
+                        {
+                            key: '1',
+                            name: 'Da',
+                        },
+                        {
+                            key: '2',
+                            name: 'Ne',
+                        },
+                    ]),
+                }),
+            ],
+        });
+
         return <div>
             <FindPlacesHeader viewObject={viewObject} type={type} imagesRepository={imagesRepository}/>
+            <div className='filter-section'>
+                <FiltersSection imagesRepository={imagesRepository} viewObject={filterSectionViewObject} />
+            </div>
         </div>;
     }
 }
